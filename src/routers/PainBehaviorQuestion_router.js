@@ -17,10 +17,10 @@ router.post("/importBehaviorQuestion", async (req, res) => {
         });
     });
 });
-router.get("/BehaviorQuestions/:id", async (req, res) => {
+router.get("/questionsByPainBehavior/:painBehaviorId", async (req, res) => {
     try{
         const Ques_id = await painBehaviorQuestion.find({
-            painBehavior_id : req.params.id
+            painBehavior_id : req.params.painBehaviorId
         },{
             painBehavior_id : 0,
             _id : 0
