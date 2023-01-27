@@ -26,7 +26,7 @@ router.post("/painbehavior", async (req, res) => {
         res.status(404).send(err);
     }
 });
-router.get("/painbehavior/:id", async (req, res) => {
+router.get("/painbehaviors/:id", async (req, res) => {
     try{
         const getData = await painbehavior.find({PainDefinition_id:req.params.id}, {PainDefinition_id : 0});
         res.status(200).send(getData);
@@ -37,15 +37,6 @@ router.get("/painbehavior/:id", async (req, res) => {
 router.get("/painbehavior/:id", async (req, res) => {
     try{
         const getData = await painbehavior.findById(req.params.id);
-        !getData ? res.status(404).send() : res.status(200).send(getData);
-    }catch(err){
-        res.status(404).send(err);
-    }
-});
-router.get("/painbehavior/:name", async (req, res) => {
-    try{
-        const nam = req.params.name;
-        const getData = await painbehavior.find({name:nam});
         !getData ? res.status(404).send() : res.status(200).send(getData);
     }catch(err){
         res.status(404).send(err);

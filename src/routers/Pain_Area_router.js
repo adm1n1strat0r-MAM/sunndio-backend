@@ -27,7 +27,7 @@ router.post("/painarea", async (req, res) => {
         res.status(404).send(err);
     }
 });
-router.get("/painarea", async (req, res) => {
+router.get("/painareas", async (req, res) => {
     try{
         const getData = await painarea.find({IsLive : true});
         res.status(200).send(getData);
@@ -39,15 +39,6 @@ router.get("/painarea/:id", async (req, res) => {
     try{
         const _id = req.params.id;
         const getData = await painarea.findById(_id);
-        !getData ? res.status(404).send() : res.status(200).send(getData);
-    }catch(err){
-        res.status(404).send(err);
-    }
-});
-router.get("/painarea/:name", async (req, res) => {
-    try{
-        const nam = req.params.name;
-        const getData = await painarea.find({name:nam});
         !getData ? res.status(404).send() : res.status(200).send(getData);
     }catch(err){
         res.status(404).send(err);
