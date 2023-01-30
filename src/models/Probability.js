@@ -1,6 +1,7 @@
 const mongoose = require("mongoose");
 
-const probSchema = new mongoose.Schema({
+// Define the mongoose Schema for probability, it contained the painBehaviorId
+const probabilitySchema = new mongoose.Schema({
     possible: {
         type : Number,
     },
@@ -16,4 +17,5 @@ const probSchema = new mongoose.Schema({
     }
 });
 
-module.exports = mongoose.model("Probability", probSchema);
+//
+module.exports = mongoose.model("Probability", probabilitySchema);

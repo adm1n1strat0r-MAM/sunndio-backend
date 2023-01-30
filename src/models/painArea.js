@@ -1,6 +1,7 @@
 const mongoose = require("mongoose");
 
-const PA_Schema = new mongoose.Schema({
+// Define Mongoose Schema for painArea
+const painAreaSchema = new mongoose.Schema({
     name : {
         type : String,
         required : true,
@@ -11,4 +12,5 @@ const PA_Schema = new mongoose.Schema({
     }
 });
 
-module.exports = mongoose.model("PainArea", PA_Schema);
+// exports the painArea model
+module.exports = mongoose.model("PainArea", painAreaSchema);

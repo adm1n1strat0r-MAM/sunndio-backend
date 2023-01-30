@@ -1,6 +1,7 @@
 const mongoose = require("mongoose");
 
-const PB_Schema = new mongoose.Schema({
+// Define the mongoose Schema for painBehavior, it contained the painDefinitionId
+const painBehaviorSchema = new mongoose.Schema({
     name : {
         type : String,
         required : true,
@@ -12,6 +13,5 @@ const PB_Schema = new mongoose.Schema({
     }
 });
 
-const Pain_Behavior = mongoose.model("PainBehavior", PB_Schema);
-
-module.exports = Pain_Behavior;
+// export the painbehavior model
+module.exports = mongoose.model("PainBehavior", painBehaviorSchema);

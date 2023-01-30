@@ -1,14 +1,15 @@
 const express = require("express");
 const router = express.Router();
-const AssignResult = require("../models/AssginResult");
+const Probability = require("../models/probability");
+const painBehavior = require("../models/painBehavior");
 const csvtojson = require("csvtojson");
 
-router.post("/importAssignResult", async (req, res) => {
+router.post("/importProbability", async (req, res) => {
     csvtojson()
-    .fromFile("2.3.csv")
+    .fromFile("Book3.csv")
     .then(csvData =>{
         console.log(csvData);
-        AssignResult.insertMany(csvData).then(function () {
+        Probability.insertMany(csvData).then(function () {
             console.log("Data Inserted");
             res.json({success : 'success'});
         }).catch(function (err) {
@@ -17,57 +18,57 @@ router.post("/importAssignResult", async (req, res) => {
     });
 });
 
-
-router.post("/AssignResult", async (req, res) => {
+router.post("/Probability", async (req, res) => {
     try{
-        const addPD = new AssignResult(req.body);
-        const add = await addPD.save();
+        
+        const addPB = new Probability(req.body);
+        const add = await addPB.save();
         res.status(201).send(add);
     }catch(err){
         res.status(404).send(err);
     }
 });
-router.get("/AssignResult", async (req, res) => {
+router.get("/Probability", async (req, res) => {
     try{
-        const getData = await AssignResult.find();
+        const getData = await Probability.find();
         res.status(200).send(getData);
     }catch(err){
         res.status(404).send(err);
     }
 });
-router.get("/AssignResult/:id", async (req, res) => {
+router.get("/Probability/:id", async (req, res) => {
     try{
-        const getData = await AssignResult.findById(req.params.id);
+        const getData = await Probability.findById(req.params.id);
         !getData ? res.status(404).send() : res.status(200).send(getData);
     }catch(err){
         res.status(404).send(err);
     }
 });
-router.get("/AssignResult/:name", async (req, res) => {
+router.get("/Probability/:name", async (req, res) => {
     try{
         const nam = req.params.name;
-        const getData = await AssignResult.find({name:nam});
+        const getData = await Probability.find({name:nam});
         !getData ? res.status(404).send() : res.status(200).send(getData);
     }catch(err){
         res.status(404).send(err);
     }
 });
-router.patch("/AssignResult/:id", async (req, res) => {
+router.patch("/Probability/:id", async (req, res) => {
     try{
         const _id = req.params.id;
         
-        const updateAR = await AssignResult.findByIdAndUpdate(_id, req.body,{
+        const updateprob = await Probability.findByIdAndUpdate(_id, req.body,{
             new : true
         });
-        res.status(200).send(updateAR);
+        res.status(200).send(updateprob);
     }catch(err){
         res.status(404).send(err);
     }
 });
-router.delete("/AssignResult/:id", async (req, res) =>{
+router.delete("/Probability/:id", async (req, res) =>{
     try{
-        const deleteAR = await AssignResult.findByIdAndDelete(req.params.id);
-        !deleteAR ? res.status(400).send() : res.status(200).send(deleteAR);
+        const deleteProb = await Probability.findByIdAndDelete(req.params.id);
+        !deleteProb ? res.status(400).send() : res.status(200).send(deleteProb);
     }catch(err){
         res.status(404).send(err);
     }

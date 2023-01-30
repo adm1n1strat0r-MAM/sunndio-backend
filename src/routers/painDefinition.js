@@ -1,6 +1,6 @@
 const express = require("express");
 const router = express.Router();
-const paindefinition = require("../models/Pain_Defination");
+const paindefinition = require("../models/painDefinition");
 const csvtojson = require("csvtojson");
 
 router.post("/importPainDefinition", async (req, res) => {
@@ -30,6 +30,14 @@ router.post("/paindefinition", async (req, res) => {
 router.get("/painDefinitionsByPainAreaId/:painAreaId", async (req, res) => {
     try{
         const getData = await paindefinition.find({PainArea_id : req.params.painAreaId}, {PainArea_id : 0});
+        res.status(200).send(getData);
+    }catch(err){
+        res.status(404).send(err);
+    }
+});
+router.get("/painDefinitions", async (req, res) => {
+    try{
+        const getData = await paindefinition.find();
         res.status(200).send(getData);
     }catch(err){
         res.status(404).send(err);

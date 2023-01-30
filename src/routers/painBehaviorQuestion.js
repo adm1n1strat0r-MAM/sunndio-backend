@@ -1,7 +1,7 @@
 const express = require("express");
 const router = express.Router();
-const painBehaviorQuestion = require("../models/PainBehaviorQuestion");
-const question = require("../models/Question");
+const painBehaviorQuestion = require("../models/painBehaviorQuestion");
+const question = require("../models/question");
 const csvtojson = require("csvtojson");
 
 router.post("/importBehaviorQuestion", async (req, res) => {

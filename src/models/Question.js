@@ -1,5 +1,6 @@
 const mongoose = require("mongoose");
 
+// Define the mongoose Schema for question
 const questionSchema = new mongoose.Schema({
     question : {
         type : String,
@@ -7,6 +8,5 @@ const questionSchema = new mongoose.Schema({
     }
 });
 
-const question = new mongoose.model("question", questionSchema);
-
-module.exports = question;
+//export the question model
+module.exports = mongoose.model("question", questionSchema);;

@@ -1,6 +1,6 @@
 const express = require("express");
 const router = express.Router();
-const Diagnostic = require("../models/Diagnostics");
+const Diagnostic = require("../models/diagnostics");
 const csvtojson = require("csvtojson");
 
 router.post("/importDiagnostic", async (req, res) => {
@@ -29,7 +29,7 @@ router.post("/Diagnostic", async (req, res) => {
 });
 router.get("/Diagnostic", async (req, res) => {
     try{
-        const getData = await Diagnostic.find({},{_id:1});
+        const getData = await Diagnostic.find();
         res.status(200).send(getData);
     }catch(err){
         res.status(404).send(err);

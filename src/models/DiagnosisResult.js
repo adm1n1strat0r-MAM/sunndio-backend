@@ -1,6 +1,7 @@
 const mongoose = require("mongoose");
 
-const DiagResultSchema = mongoose.Schema({
+// Define the mongoose Schema for DiagResultSchema, it contained the painBehaviorId
+const diagResultSchema = mongoose.Schema({
     PossibleDiag_id : {
         type : mongoose.Schema.Types.ObjectId
     },
@@ -13,4 +14,5 @@ const DiagResultSchema = mongoose.Schema({
     }
 });
 
-module.exports = mongoose.model("DiagnosisResult", DiagResultSchema);
+// export the diagResultSchema model
+module.exports = mongoose.model("DiagnosisResult", diagResultSchema);

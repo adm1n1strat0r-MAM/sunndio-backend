@@ -1,6 +1,7 @@
 const mongoose = require("mongoose");
 
-const PBQSchema = mongoose.Schema({
+// Define the mongoose Schema for painBehaviorQuestion, it contained only the painBehaviorId, and questionId
+const painBehaviorQuesiton = mongoose.Schema({
     painBehavior_id : {
         type : mongoose.Schema.Types.ObjectId,
         ref : 'PainBehavior'
@@ -11,4 +12,5 @@ const PBQSchema = mongoose.Schema({
     }
 });
 
-module.exports = mongoose.model('PainBehaviorQuestion', PBQSchema);
+// export the painBehaviorQuesiton model
+module.exports = mongoose.model('PainBehaviorQuestion', painBehaviorQuesiton);

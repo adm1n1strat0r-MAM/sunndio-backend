@@ -1,6 +1,7 @@
 const mongoose = require("mongoose");
 
-const DiagSchema = new mongoose.Schema({
+// Define the mongoose Schema for diagnostic
+const diagnosticSchema = new mongoose.Schema({
     diag_name : {
         type : String,
         required : true,
@@ -8,6 +9,5 @@ const DiagSchema = new mongoose.Schema({
     }
 });
 
-const Diagnostic = new mongoose.model("diagnostic", DiagSchema);
-
-module.exports = Diagnostic;
+// export the diagnosticSchema model
+module.exports = mongoose.model("diagnostic", diagnosticSchema);

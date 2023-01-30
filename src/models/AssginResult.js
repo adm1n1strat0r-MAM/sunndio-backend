@@ -1,6 +1,7 @@
 const mongoose = require("mongoose");
 
-const AResultSchema = new mongoose.Schema({
+// Define the mongoose Schema for assignResultSchema, it contained the painBehaviorId, painBehaviorQuestionId, and possibleDiagId
+const assignResultSchema = new mongoose.Schema({
     DiagAnswer : {
         type : Boolean
     },
@@ -21,4 +22,5 @@ const AResultSchema = new mongoose.Schema({
     }
 });
 
-module.exports = mongoose.model("AssignResult", AResultSchema);
+// export the assignResult model
+module.exports = mongoose.model("AssignResult", assignResultSchema);

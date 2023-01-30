@@ -1,6 +1,6 @@
 const express = require("express");
 const router = express.Router();
-const question = require("../models/Question");
+const question = require("../models/question");
 const csvtojson = require("csvtojson");
 
 router.post("/importquestion", async (req, res) => {
@@ -20,14 +20,14 @@ router.post("/importquestion", async (req, res) => {
 
 router.post("/question", async (req, res) => {
     try{
-        const addPD = new question(req.body);
-        const add = await addPD.save();
-        res.status(201).send(add);
+        const addData = new question(req.body);
+        const added = await addData.save();
+        res.status(201).send(added);
     }catch(err){
         res.status(404).send(err);
     }
 });
-router.get("/question", async (req, res) => {
+router.get("/questions", async (req, res) => {
     try{
         const getData = await question.find();
         res.status(200).send(getData);
@@ -38,15 +38,6 @@ router.get("/question", async (req, res) => {
 router.get("/question/:id", async (req, res) => {
     try{
         const getData = await question.findById(req.params.id);
-        !getData ? res.status(404).send() : res.status(200).send(getData);
-    }catch(err){
-        res.status(404).send(err);
-    }
-});
-router.get("/question/:name", async (req, res) => {
-    try{
-        const nam = req.params.name;
-        const getData = await question.find({name:nam});
         !getData ? res.status(404).send() : res.status(200).send(getData);
     }catch(err){
         res.status(404).send(err);

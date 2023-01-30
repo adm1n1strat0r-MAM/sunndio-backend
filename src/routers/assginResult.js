@@ -1,14 +1,14 @@
 const express = require("express");
 const router = express.Router();
-const painPossibleDiag = require("../models/PainPossibleDiagnotics");
+const AssignResult = require("../models/assginResult");
 const csvtojson = require("csvtojson");
 
-router.post("/importpainPossibleDiag", async (req, res) => {
+router.post("/importAssignResult", async (req, res) => {
     csvtojson()
-    .fromFile("Book1.csv")
+    .fromFile("2.3.csv")
     .then(csvData =>{
         console.log(csvData);
-        painPossibleDiag.insertMany(csvData).then(function () {
+        AssignResult.insertMany(csvData).then(function () {
             console.log("Data Inserted");
             res.json({success : 'success'});
         }).catch(function (err) {
@@ -17,56 +17,57 @@ router.post("/importpainPossibleDiag", async (req, res) => {
     });
 });
 
-router.post("/painPossibleDiag", async (req, res) => {
+
+router.post("/AssignResult", async (req, res) => {
     try{
-        const addPB = new painPossibleDiag(req.body);
-        const add = await addPB.save();
+        const addPD = new AssignResult(req.body);
+        const add = await addPD.save();
         res.status(201).send(add);
     }catch(err){
         res.status(404).send(err);
     }
 });
-router.get("/painPossibleDiag", async (req, res) => {
+router.get("/AssignResult", async (req, res) => {
     try{
-        const getData = await painPossibleDiag.find();
+        const getData = await AssignResult.find();
         res.status(200).send(getData);
     }catch(err){
         res.status(404).send(err);
     }
 });
-router.get("/painPossibleDiag/:id", async (req, res) => {
+router.get("/AssignResult/:id", async (req, res) => {
     try{
-        const getData = await painPossibleDiag.findById(req.params.id);
+        const getData = await AssignResult.findById(req.params.id);
         !getData ? res.status(404).send() : res.status(200).send(getData);
     }catch(err){
         res.status(404).send(err);
     }
 });
-router.get("/painPossibleDiag/:name", async (req, res) => {
+router.get("/AssignResult/:name", async (req, res) => {
     try{
         const nam = req.params.name;
-        const getData = await painPossibleDiag.find({name:nam});
+        const getData = await AssignResult.find({name:nam});
         !getData ? res.status(404).send() : res.status(200).send(getData);
     }catch(err){
         res.status(404).send(err);
     }
 });
-router.patch("/painPossibleDiag/:id", async (req, res) => {
+router.patch("/AssignResult/:id", async (req, res) => {
     try{
         const _id = req.params.id;
         
-        const updatePPD = await painPossibleDiag.findByIdAndUpdate(_id, req.body,{
+        const updateAR = await AssignResult.findByIdAndUpdate(_id, req.body,{
             new : true
         });
-        res.status(200).send(updatePPD);
+        res.status(200).send(updateAR);
     }catch(err){
         res.status(404).send(err);
     }
 });
-router.delete("/painPossibleDiag/:id", async (req, res) =>{
+router.delete("/AssignResult/:id", async (req, res) =>{
     try{
-        const deletePPD = await painPossibleDiag.findByIdAndDelete(req.params.id);
-        !deletePPD ? res.status(400).send() : res.status(200).send(deletePPD);
+        const deleteAR = await AssignResult.findByIdAndDelete(req.params.id);
+        !deleteAR ? res.status(400).send() : res.status(200).send(deleteAR);
     }catch(err){
         res.status(404).send(err);
     }
