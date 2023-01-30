@@ -1,23 +1,8 @@
 const express = require("express");
 const router = express.Router();
 const question = require("../models/question");
-const csvtojson = require("csvtojson");
 
-router.post("/importquestion", async (req, res) => {
-    csvtojson()
-    .fromFile("Book2.csv")
-    .then(csvData =>{
-        console.log(csvData);
-        question.insertMany(csvData).then(function () {
-            console.log("Data Inserted");
-            res.json({success : 'success'});
-        }).catch(function (err) {
-            console.log(err);
-        });
-    });
-});
-
-
+// insert questions into the to MonogoDB
 router.post("/question", async (req, res) => {
     try{
         const addData = new question(req.body);
@@ -27,6 +12,7 @@ router.post("/question", async (req, res) => {
         res.status(404).send(err);
     }
 });
+//get all questions from the MonogoDB
 router.get("/questions", async (req, res) => {
     try{
         const getData = await question.find();
@@ -35,6 +21,7 @@ router.get("/questions", async (req, res) => {
         res.status(404).send(err);
     }
 });
+//get question by Id
 router.get("/question/:id", async (req, res) => {
     try{
         const getData = await question.findById(req.params.id);
@@ -43,22 +30,23 @@ router.get("/question/:id", async (req, res) => {
         res.status(404).send(err);
     }
 });
+// update question by id
 router.patch("/question/:id", async (req, res) => {
     try{
         const _id = req.params.id;
-        
-        const updatequs = await question.findByIdAndUpdate(_id, req.body,{
+        const updateDate = await question.findByIdAndUpdate(_id, req.body,{
             new : true
         });
-        res.status(200).send(updatequs);
+        res.status(200).send(updateDate);
     }catch(err){
         res.status(404).send(err);
     }
 });
+// delete question by id
 router.delete("/question/:id", async (req, res) =>{
     try{
-        const deleteques = await question.findByIdAndDelete(req.params.id);
-        !deleteques ? res.status(400).send() : res.status(200).send(deleteques);
+        const deleteData = await question.findByIdAndDelete(req.params.id);
+        !deleteData ? res.status(400).send() : res.status(200).send(deleteData);
     }catch(err){
         res.status(404).send(err);
     }

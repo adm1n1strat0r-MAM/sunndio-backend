@@ -1,33 +1,19 @@
 const express = require("express");
 const router = express.Router();
 const Probability = require("../models/probability");
-const painBehavior = require("../models/painBehavior");
-const csvtojson = require("csvtojson");
 
-router.post("/importProbability", async (req, res) => {
-    csvtojson()
-    .fromFile("Book3.csv")
-    .then(csvData =>{
-        console.log(csvData);
-        Probability.insertMany(csvData).then(function () {
-            console.log("Data Inserted");
-            res.json({success : 'success'});
-        }).catch(function (err) {
-            console.log(err);
-        });
-    });
-});
-
+// insert probability data into the MonogoDB
 router.post("/Probability", async (req, res) => {
     try{
         
-        const addPB = new Probability(req.body);
-        const add = await addPB.save();
-        res.status(201).send(add);
+        const addData = new Probability(req.body);
+        const added = await addData.save();
+        res.status(201).send(added);
     }catch(err){
         res.status(404).send(err);
     }
 });
+// get all the probability data from the MonogoDB
 router.get("/Probability", async (req, res) => {
     try{
         const getData = await Probability.find();
@@ -36,6 +22,7 @@ router.get("/Probability", async (req, res) => {
         res.status(404).send(err);
     }
 });
+// get the probability data by Id
 router.get("/Probability/:id", async (req, res) => {
     try{
         const getData = await Probability.findById(req.params.id);
@@ -44,31 +31,23 @@ router.get("/Probability/:id", async (req, res) => {
         res.status(404).send(err);
     }
 });
-router.get("/Probability/:name", async (req, res) => {
-    try{
-        const nam = req.params.name;
-        const getData = await Probability.find({name:nam});
-        !getData ? res.status(404).send() : res.status(200).send(getData);
-    }catch(err){
-        res.status(404).send(err);
-    }
-});
+// update the probability data into the MonogoDB by id
 router.patch("/Probability/:id", async (req, res) => {
     try{
         const _id = req.params.id;
-        
-        const updateprob = await Probability.findByIdAndUpdate(_id, req.body,{
+        const updateData = await Probability.findByIdAndUpdate(_id, req.body,{
             new : true
         });
-        res.status(200).send(updateprob);
+        res.status(200).send(updateData);
     }catch(err){
         res.status(404).send(err);
     }
 });
+// delete the probability data from the MonogoDB by id
 router.delete("/Probability/:id", async (req, res) =>{
     try{
-        const deleteProb = await Probability.findByIdAndDelete(req.params.id);
-        !deleteProb ? res.status(400).send() : res.status(200).send(deleteProb);
+        const deleteData = await Probability.findByIdAndDelete(req.params.id);
+        !deleteData ? res.status(400).send() : res.status(200).send(deleteData);
     }catch(err){
         res.status(404).send(err);
     }

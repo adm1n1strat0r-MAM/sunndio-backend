@@ -1,33 +1,19 @@
 const express = require("express");
 const router = express.Router();
 const Diagnostic = require("../models/diagnostics");
-const csvtojson = require("csvtojson");
 
-router.post("/importDiagnostic", async (req, res) => {
-    csvtojson()
-    .fromFile("Book1.csv")
-    .then(csvData =>{
-        console.log(csvData);
-        Diagnostic.insertMany(csvData).then(function () {
-            console.log("Data Inserted");
-            res.json({success : 'success'});
-        }).catch(function (err) {
-            console.log(err);
-        });
-    });
-});
-
-
-router.post("/Diagnostic", async (req, res) => {
+// insert diagnostic data into the MongoDB
+router.post("/diagnostic", async (req, res) => {
     try{
         const addPD = new Diagnostic(req.body);
         const add = await addPD.save();
         res.status(201).send(add);
     }catch(err){
-        res.status(404).send(err);
+        res.status(400).send(err);
     }
 });
-router.get("/Diagnostic", async (req, res) => {
+// get all the diagnostics 
+router.get("/diagnostic", async (req, res) => {
     try{
         const getData = await Diagnostic.find();
         res.status(200).send(getData);
@@ -35,39 +21,32 @@ router.get("/Diagnostic", async (req, res) => {
         res.status(404).send(err);
     }
 });
-router.get("/Diagnostic/:id", async (req, res) => {
+// get the diagnostic by diagnosticId
+router.get("/diagnostic/:diagnosticId", async (req, res) => {
     try{
-        const getData = await Diagnostic.findById(req.params.id);
+        const getData = await Diagnostic.findById(req.params.diagnosticId);
         !getData ? res.status(404).send() : res.status(200).send(getData);
     }catch(err){
         res.status(404).send(err);
     }
 });
-router.get("/Diagnostic/:name", async (req, res) => {
+// update the diagnostic data into the MongoDB by diagnosticId
+router.patch("/diagnostic/:diagnosticId", async (req, res) => {
     try{
-        const nam = req.params.name;
-        const getData = await Diagnostic.find({name:nam});
-        !getData ? res.status(404).send() : res.status(200).send(getData);
-    }catch(err){
-        res.status(404).send(err);
-    }
-});
-router.patch("/Diagnostic/:id", async (req, res) => {
-    try{
-        const _id = req.params.id;
-        
-        const updatediag = await Diagnostic.findByIdAndUpdate(_id, req.body,{
+        const _id = req.params.diagnosticId;
+        const updateData = await Diagnostic.findByIdAndUpdate(_id, req.body,{
             new : true
         });
-        res.status(200).send(updatediag);
+        res.status(200).send(updateData);
     }catch(err){
         res.status(404).send(err);
     }
 });
-router.delete("/Diagnostic/:id", async (req, res) =>{
+// Delete the diagnostic data from the MonogoDB by diagnosticId
+router.delete("/diagnostic/:diagnosticId", async (req, res) =>{
     try{
-        const deletediag = await Diagnostic.findByIdAndDelete(req.params.id);
-        !deletediag ? res.status(400).send() : res.status(200).send(deletediag);
+        const deleteData = await Diagnostic.findByIdAndDelete(req.params.diagnosticId);
+        !deleteData ? res.status(404).send() : res.status(200).send(deleteData);
     }catch(err){
         res.status(404).send(err);
     }

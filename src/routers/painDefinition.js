@@ -1,32 +1,18 @@
 const express = require("express");
 const router = express.Router();
 const paindefinition = require("../models/painDefinition");
-const csvtojson = require("csvtojson");
 
-router.post("/importPainDefinition", async (req, res) => {
-    csvtojson()
-    .fromFile("Book1.csv")
-    .then(csvData =>{
-        console.log(csvData);
-        paindefinition.insertMany(csvData).then(function () {
-            console.log("Data Inserted");
-            res.json({success : 'success'});
-        }).catch(function (err) {
-            console.log(err);
-        });
-    });
-});
-
-
-router.post("/paindefinition", async (req, res) => {
+// insert the painDefinition data in to MonogoDB
+router.post("/painDefinition", async (req, res) => {
     try{
-        const addPD = new paindefinition(req.body);
-        const add = await addPD.save();
-        res.status(201).send(add);
+        const addData = new paindefinition(req.body);
+        const added= await addData.save();
+        res.status(201).send(added);
     }catch(err){
-        res.status(404).send(err);
+        res.status(400).send(err);
     }
 });
+// get the painDefinitions By PainAreaId
 router.get("/painDefinitionsByPainAreaId/:painAreaId", async (req, res) => {
     try{
         const getData = await paindefinition.find({PainArea_id : req.params.painAreaId}, {PainArea_id : 0});
@@ -35,6 +21,7 @@ router.get("/painDefinitionsByPainAreaId/:painAreaId", async (req, res) => {
         res.status(404).send(err);
     }
 });
+// get all the painDefinition data
 router.get("/painDefinitions", async (req, res) => {
     try{
         const getData = await paindefinition.find();
@@ -43,7 +30,8 @@ router.get("/painDefinitions", async (req, res) => {
         res.status(404).send(err);
     }
 });
-router.get("/paindefinition/:id", async (req, res) => {
+// get the painDefinitions data by painDefinitionId
+router.get("/painDefinitions/:id", async (req, res) => {
     try{
         const getData = await paindefinition.findById(req.params.id);
         !getData ? res.status(404).send() : res.status(200).send(getData);
@@ -51,22 +39,23 @@ router.get("/paindefinition/:id", async (req, res) => {
         res.status(404).send(err);
     }
 });
-router.patch("/paindefinition/:id", async (req, res) => {
+// update the painDefiniton data by painDefinitionId
+router.patch("/painDefinition/:painDefinitionId", async (req, res) => {
     try{
-        const _id = req.params.id;
-        
-        const updatePD = await paindefinition.findByIdAndUpdate(_id, req.body,{
+        const _id = req.params.painDefinitionId;
+        const updateData = await paindefinition.findByIdAndUpdate(_id, req.body,{
             new : true
         });
-        res.status(200).send(updatePD);
+        res.status(200).send(updateData);
     }catch(err){
         res.status(404).send(err);
     }
 });
-router.delete("/paindefinition/:id", async (req, res) =>{
+// delete the painDefiniton data by painDefinitionId
+router.delete("/painDefinition/:painDefinitionId", async (req, res) =>{
     try{
-        const deletePD = await paindefinition.findByIdAndDelete(req.params.id);
-        !deletePD ? res.status(400).send() : res.status(200).send(deletePD);
+        const deleteData = await paindefinition.findByIdAndDelete(req.params.painDefinitionId);
+        !deleteData ? res.status(400).send() : res.status(200).send(deleteData);
     }catch(err){
         res.status(404).send(err);
     }

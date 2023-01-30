@@ -1,22 +1,8 @@
 const express = require("express");
 const router = express.Router();
 const painbehavior = require("../models/painBehavior");
-const csvtojson = require("csvtojson");
 
-router.post("/importPainbehavior", async (req, res) => {
-    csvtojson()
-    .fromFile("Book1.csv")
-    .then(csvData =>{
-        console.log(csvData);
-        painbehavior.insertMany(csvData).then(function () {
-            console.log("Data Inserted");
-            res.json({success : 'success'});
-        }).catch(function (err) {
-            console.log(err);
-        });
-    });
-});
-
+// insert painBehavior Data into the MonogoDB
 router.post("/painbehavior", async (req, res) => {
     try{
         const addPB = new painbehavior(req.body);
@@ -26,6 +12,7 @@ router.post("/painbehavior", async (req, res) => {
         res.status(404).send(err);
     }
 });
+// get the painBehaviors By PainDefinitionId
 router.get("/painBehaviorsByPainDefinition/:painDefinitionId", async (req, res) => {
     try{
         const getData = await painbehavior.find({PainDefinition_id:req.params.painDefinitionId}, {PainDefinition_id : 0});
@@ -34,6 +21,7 @@ router.get("/painBehaviorsByPainDefinition/:painDefinitionId", async (req, res) 
         res.status(404).send(err);
     }
 });
+// get the painBehaviors data from the MongoDB
 router.get("/painBehaviors", async (req, res) => {
     try{
         const getData = await painbehavior.find();
@@ -42,30 +30,32 @@ router.get("/painBehaviors", async (req, res) => {
         res.status(404).send(err);
     }
 });
-router.get("/painbehavior/:id", async (req, res) => {
+// get the painBehaviors data  from the MongoDB by painBehaviorsId
+router.get("/painbehavior/:painBehaviorsId", async (req, res) => {
     try{
-        const getData = await painbehavior.findById(req.params.id);
+        const getData = await painbehavior.findById(req.params.painBehaviorsId);
         !getData ? res.status(404).send() : res.status(200).send(getData);
     }catch(err){
         res.status(404).send(err);
     }
 });
-router.patch("/painbehavior/:id", async (req, res) => {
+// update the painBehaviors data by painBehaviorsId
+router.patch("/painbehavior/:painBehaviorsId", async (req, res) => {
     try{
-        const _id = req.params.id;
-        
-        const updatePB = await painbehavior.findByIdAndUpdate(_id, req.body,{
+        const _id = req.params.painBehaviorsId;
+        const updateData = await painbehavior.findByIdAndUpdate(_id, req.body,{
             new : true
         });
-        res.status(200).send(updatePB);
+        res.status(200).send(updateData);
     }catch(err){
         res.status(404).send(err);
     }
 });
-router.delete("/painbehavior/:id", async (req, res) =>{
+// delete the painBehaviors data form the MonogoDb by painBehaviorsId
+router.delete("/painbehavior/:painBehaviorsId", async (req, res) =>{
     try{
-        const deletePB = await painbehavior.findByIdAndDelete(req.params.id);
-        !deletePB ? res.status(400).send() : res.status(200).send(deletePB);
+        const deleteData = await painbehavior.findByIdAndDelete(req.params.painBehaviorsId);
+        !deleteData ? res.status(400).send() : res.status(200).send(deleteData);
     }catch(err){
         res.status(404).send(err);
     }

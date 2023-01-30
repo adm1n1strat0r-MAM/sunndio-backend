@@ -1,26 +1,36 @@
 const express = require("express");
 const mongoose = require("mongoose");
 const config = require("./config/config");
+const PORT = config.PORT;
 require("./config/db");
 
-
-const PArouting = require("./routers/painArea");
-const PDrouting = require("./routers/painDefinition");
-const PBrouting = require("./routers/painBehavior");
-const QuesRouting = require("./routers/question");
-const Diagrouting = require("./routers/diagnostics");
-const PBQrouting = require("./routers/painBehaviorQuestion");
-const PPDrouting = require("./routers/painPossibleDiagnotics");
-const Probrouting = require("./routers/probability");
-const AssignResultrouting = require("./routers/assginResult");
-const DiagResultrouting = require("./routers/daignonsisResult");
+const painAreaRouting = require("./routers/painArea");
+const painDefinitionRouting = require("./routers/painDefinition");
+const painBehaviorRouting = require("./routers/painBehavior");
+const questionRouting = require("./routers/question");
+const diagnosticsRouting = require("./routers/diagnostics");
+const painBehaviorQuestionRouting = require("./routers/painBehaviorQuestion");
+const painPossibleQuestionRouting = require("./routers/painPossibleDiagnotics");
+const ProbabilityRouting = require("./routers/probability");
+const AssignResultRouting = require("./routers/assginResult");
+const DiagResultRouting = require("./routers/daignonsisResult");
 
 const app = express();
 
 app.use(express.json());
-app.use([PArouting, PDrouting, PBrouting, QuesRouting, Diagrouting, PBQrouting, PPDrouting, Probrouting, AssignResultrouting, DiagResultrouting]);
+app.use([
+  painAreaRouting,
+  painDefinitionRouting,
+  painBehaviorRouting,
+  questionRouting,
+  diagnosticsRouting,
+  painBehaviorQuestionRouting,
+  painPossibleQuestionRouting,
+  ProbabilityRouting,
+  AssignResultRouting,
+  DiagResultRouting,
+]);
 
-
-app.listen(config.PORT, () => {
-    console.log(`Server is running at port no ${config.PORT}`);
-})
+app.listen(PORT, () => {
+  console.log(`Server is running at port no ${PORT}`);
+});
