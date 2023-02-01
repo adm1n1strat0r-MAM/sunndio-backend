@@ -7,7 +7,7 @@ const painAreaSchema = new mongoose.Schema({
         required : true,
         unique : true
     },
-    IsLive : {
+    isLive : {
         type : Boolean
     }
 });

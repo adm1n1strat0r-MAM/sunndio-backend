@@ -2,7 +2,7 @@ const mongoose = require("mongoose");
 
 // Define the mongoose Schema for diagnostic
 const diagnosticSchema = new mongoose.Schema({
-    diag_name : {
+    diagnosisName : {
         type : String,
         required : true,
         unique : true

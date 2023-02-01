@@ -2,6 +2,7 @@ const express = require("express");
 const router = express.Router();
 const Probability = require("../models/probability");
 
+
 // insert probability data into the MonogoDB
 router.post("/Probability", async (req, res) => {
     try{

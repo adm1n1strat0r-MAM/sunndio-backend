@@ -1,7 +1,6 @@
 const express = require("express");
 const router = express.Router();
 const painBehaviorQuestion = require("../models/painBehaviorQuestion");
-const question = require("../models/question");
 
 // get the question form the MongoDB by painBehaviorId
 router.get("/questionsByPainBehavior/:painBehaviorId", async (req, res) => {
@@ -10,16 +9,16 @@ router.get("/questionsByPainBehavior/:painBehaviorId", async (req, res) => {
     const questionIDs = await painBehaviorQuestion
       .find(
         {
-          painBehavior_id: req.params.painBehaviorId,
+          painBehaviorId: req.params.painBehaviorId,
         },
         {
-          painBehavior_id: 0,
+          painBehaviorId: 0,
           _id: 0,
         }
       )
-      .populate("question_id");
+      .populate("questionId");
     // get the questions using map mathod from the papulated array
-    const questions = questionIDs.map((_question) => _question.question_id);
+    const questions = questionIDs.map((_question) => _question.questionId);
     res.status(200).send(questions);
   } catch (err) {
     res.status(404).send(err);

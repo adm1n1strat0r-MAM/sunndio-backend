@@ -1,5 +1,5 @@
 const express = require("express");
-const mongoose = require("mongoose");
+const cors = require("cors");
 const config = require("./config/config");
 const PORT = config.PORT;
 require("./config/db");
@@ -16,7 +16,7 @@ const AssignResultRouting = require("./routers/assginResult");
 const DiagResultRouting = require("./routers/daignonsisResult");
 
 const app = express();
-
+app.use(cors());
 app.use(express.json());
 app.use([
   painAreaRouting,

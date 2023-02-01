@@ -17,7 +17,7 @@ router.post("/painarea", async (req, res) => {
 // get data of painArea which one is live
 router.get("/painareas", async (req, res) => {
     try{
-        const getData = await painarea.find({IsLive : true});
+        const getData = await painarea.find({isLive : true});
         res.status(200).send(getData);
     }catch(err){
         res.status(404).send(err);

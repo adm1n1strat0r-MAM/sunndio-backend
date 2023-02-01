@@ -2,11 +2,11 @@ const mongoose = require("mongoose");
 
 // Define the mongoose Schema for painBehaviorQuestion, it contained only the painBehaviorId, and questionId
 const painBehaviorQuesiton = mongoose.Schema({
-    painBehavior_id : {
+    painBehaviorId : {
         type : mongoose.Schema.Types.ObjectId,
         ref : 'PainBehavior'
     },
-    question_id : {
+    questionId : {
         type : mongoose.Schema.Types.ObjectId,
         ref : 'question'
     }

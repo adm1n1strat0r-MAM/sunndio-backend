@@ -2,12 +2,19 @@ const express = require("express");
 const router = express.Router();
 const painPossibleDiag = require("../models/painPossibleDiagnostics");
 
-
 router.post("/painPossibleDiag", async (req, res) => {
     try{
         const addData = new painPossibleDiag(req.body);
         const add = await addData.save();
         res.status(201).send(add);
+    }catch(err){
+        res.status(404).send(err);
+    }
+});
+router.get("/painPossibleDiagBypainBehaviorId/:painBehaviorId", async (req, res) => {
+    try{
+        const getData = await painPossibleDiag.find();
+        res.status(200).send(getData);
     }catch(err){
         res.status(404).send(err);
     }

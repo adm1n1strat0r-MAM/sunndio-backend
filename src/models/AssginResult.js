@@ -8,15 +8,15 @@ const assignResultSchema = new mongoose.Schema({
     Percentage : {
         type : Number
     },
-    PossibleDiag_id : {
+    possibleDiagnosticId : {
         type : mongoose.Schema.Types.ObjectId,
         ref : "PainPossibleDiagnotic"
     },
-    painBehavior_id : {
+    painBehaviorId : {
         type : mongoose.Schema.Types.ObjectId,
         ref : 'PainBehavior'
     },
-    painBehaviorQuestion_id : {
+    painBehaviorQuestionId : {
         type : mongoose.Schema.Types.ObjectId,
         ref : 'PainBehaviorQuestion'
     }

@@ -2,15 +2,15 @@ const mongoose = require("mongoose");
 
 // Define the mongoose Schema for painPossibleDiagnostic, it contained the painBehaviorId, diagnosticsId
 const painPossibleDiagnosticSchema = new mongoose.Schema({
-    Diagnostics_id : {
+    diagnosticsId : {
         type : mongoose.Schema.Types.ObjectId,
         ref : "diagnostic"
     },
-    painBehavior_id : {
+    painBehaviorId : {
         type : mongoose.Schema.Types.ObjectId,
-        ref : "Pain_Behavior"
+        ref : "PainBehavior"
     },
-    IsPossibleDiag : {
+    isPossibleDiag : {
         type : Boolean
     }
 });

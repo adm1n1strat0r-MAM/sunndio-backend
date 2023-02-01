@@ -7,7 +7,7 @@ const painBehaviorSchema = new mongoose.Schema({
         required : true,
         unique : true
     },
-    PainDefinition_id : {
+    painDefinitionId: {
         type : mongoose.Schema.Types.ObjectId,
         ref : "PainDefinition"
     }

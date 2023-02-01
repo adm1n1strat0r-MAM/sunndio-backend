@@ -11,9 +11,9 @@ const probabilitySchema = new mongoose.Schema({
     total : {
         type : Number
     },
-    painBehavior_id : {
+    painBehaviorId : {
         type : mongoose.Schema.Types.ObjectId,
-        ref : "Pain_Behavior"
+        ref : "PainBehavior"
     }
 });
 
