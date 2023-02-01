@@ -1,7 +1,6 @@
 const express = require("express");
 const router = express.Router();
 const painarea = require("../models/painArea");
-const csvtojson = require("csvtojson");
 
 
 // create the painArea

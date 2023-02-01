@@ -19,7 +19,7 @@ router.get("/questionsByPainBehavior/:painBehaviorId", async (req, res) => {
       )
       .populate("question_id");
     // get the questions using map mathod from the papulated array
-    const questions = Ques_id.map((_question) => _question.question_id);
+    const questions = questionIDs.map((_question) => _question.question_id);
     res.status(200).send(questions);
   } catch (err) {
     res.status(404).send(err);
