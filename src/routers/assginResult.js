@@ -21,53 +21,52 @@ router.post("/importAssignResult", async (req, res) => {
     });
 });
 
-// insert the assignResult
+// Adds a new assignResult document to the database.
 router.post("/assignResult", async (req, res) => {
   try {
-    const addData = new AssignResult(req.body);
-    const added = await addData.save();
-    res.status(201).send(added);
+    const addAssignResult = new AssignResult(req.body);
+    const result = await addAssignResult.save();
+    res.status(201).send(result);
   } catch (err) {
     res.status(404).send(err);
   }
 });
-// get the all assignResult
+// Retrieves all assignResult documents from the database.
 router.get("/assignResult", async (req, res) => {
   try {
-    const getData = await AssignResult.find();
-    res.status(200).send(getData);
+    const getAssignResult = await AssignResult.find();
+    res.status(200).send(getAssignResult);
   } catch (err) {
     res.status(404).send(err);
   }
 });
-// get the assignResult By assignResultId
+// Retrieves a specific assignResult document by its ID
 router.get("/assignResult/:assignResultId", async (req, res) => {
   try {
-    const getData = await AssignResult.findById(req.params.assignResultId);
-    !getData ? res.status(404).send() : res.status(200).send(getData);
+    const getAssignResult = await AssignResult.findById(req.params.assignResultId);
+    !getAssignResult ? res.status(404).send() : res.status(200).send(getAssignResult);
   } catch (err) {
     res.status(404).send(err);
   }
 });
-// update the assignResult by assignResultId
+// Updates an assignResult document by its ID.
 router.patch("/AssignResult/:assignResultId", async (req, res) => {
   try {
-    const _id = req.params.assignResultId;
-    const updateAR = await AssignResult.findByIdAndUpdate(_id, req.body, {
+    const updateAssignResult = await AssignResult.findByIdAndUpdate(req.params.assignResultId, req.body, {
       new: true,
     });
-    res.status(200).send(updateAR);
+    res.status(200).send(updateAssignResult);
   } catch (err) {
     res.status(404).send(err);
   }
 });
-// delete the assignResult by assignResultId
+// Deletes an assignResult document by its ID.
 router.delete("/AssignResult/:assignResultId", async (req, res) => {
   try {
-    const deleteAR = await AssignResult.findByIdAndDelete(
+    const deleteAssignResult = await AssignResult.findByIdAndDelete(
       req.params.assignResultId
     );
-    !deleteAR ? res.status(400).send() : res.status(200).send(deleteAR);
+    !deleteAssignResult ? res.status(400).send() : res.status(200).send(deleteAssignResult);
   } catch (err) {
     res.status(404).send(err);
   }

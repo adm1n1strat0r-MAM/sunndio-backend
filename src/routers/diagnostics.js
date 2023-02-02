@@ -4,52 +4,81 @@ const Diagnostic = require("../models/diagnostics");
 
 // insert diagnostic data into the MongoDB
 router.post("/diagnostic", async (req, res) => {
-    try{
-        const addPD = new Diagnostic(req.body);
-        const add = await addPD.save();
-        res.status(201).send(add);
-    }catch(err){
-        res.status(400).send(err);
-    }
+  try {
+    // Create a new instance of the Diagnostic model using the request body
+    const addDiagnostic = new Diagnostic(req.body);
+    // Save the new instance to the database
+    const result = await addDiagnostic.save();
+    // Respond with a status code of 201 and the saved result
+    res.status(201).send(result);
+  } catch (err) {
+    // Respond with a status code of 400 and the error message if there was an issue saving the data
+    res.status(400).send(err);
+  }
 });
-// get all the diagnostics 
+
+// Get all the diagnostics from the database
 router.get("/diagnostic", async (req, res) => {
-    try{
-        const getData = await Diagnostic.find();
-        res.status(200).send(getData);
-    }catch(err){
-        res.status(404).send(err);
-    }
+  try {
+    // Retrieve all the diagnostics from the database
+    const getDiagnostic = await Diagnostic.find();
+    // Respond with a status code of 200 and the retrieved data
+    res.status(200).send(getDiagnostic);
+  } catch (err) {
+    // Respond with a status code of 404 and the error message if there was an issue retrieving the data
+    res.status(404).send(err);
+  }
 });
-// get the diagnostic by diagnosticId
+
+// Get a specific diagnostic by its ID
 router.get("/diagnostic/:diagnosticId", async (req, res) => {
-    try{
-        const getData = await Diagnostic.findById(req.params.diagnosticId);
-        !getData ? res.status(404).send() : res.status(200).send(getData);
-    }catch(err){
-        res.status(404).send(err);
-    }
+  try {
+    // Retrieve the diagnostic with the matching ID from the database
+    const getDiagnostic = await Diagnostic.findById(req.params.diagnosticId);
+    // Respond with a status code of 200 and the retrieved data if it exists, otherwise respond with a status code of 404
+    !getDiagnostic
+      ? res.status(404).send()
+      : res.status(200).send(getDiagnostic);
+  } catch (err) {
+    // Respond with a status code of 404 and the error message if there was an issue retrieving the data
+    res.status(404).send(err);
+  }
 });
-// update the diagnostic data into the MongoDB by diagnosticId
+
+// Update a specific diagnostic by its ID
 router.patch("/diagnostic/:diagnosticId", async (req, res) => {
-    try{
-        const _id = req.params.diagnosticId;
-        const updateData = await Diagnostic.findByIdAndUpdate(_id, req.body,{
-            new : true
-        });
-        res.status(200).send(updateData);
-    }catch(err){
-        res.status(404).send(err);
-    }
+  try {
+    // Retrieve the diagnostic with the matching ID from the database and update it with the request body
+    const updatedDiagnostic = await Diagnostic.findByIdAndUpdate(
+      req.params.diagnosticId,
+      req.body,
+      {
+        new: true,
+      }
+    );
+    // Respond with a status code of 200 and the updated diagnostic data
+    res.status(200).send(updatedDiagnostic);
+  } catch (err) {
+    // Respond with a status code of 404 and the error message if there was an issue updating the diagnostic data
+    res.status(404).send(err);
+  }
 });
-// Delete the diagnostic data from the MonogoDB by diagnosticId
-router.delete("/diagnostic/:diagnosticId", async (req, res) =>{
-    try{
-        const deleteData = await Diagnostic.findByIdAndDelete(req.params.diagnosticId);
-        !deleteData ? res.status(404).send() : res.status(200).send(deleteData);
-    }catch(err){
-        res.status(404).send(err);
-    }
+
+// Delete a specific diagnostic by its ID
+router.delete("/diagnostic/:diagnosticId", async (req, res) => {
+  try {
+    // Retrieve and delete the diagnostic with the matching ID from the database
+    const deletedDiagnostic = await Diagnostic.findByIdAndDelete(
+      req.params.diagnosticId
+    );
+    // Respond with a status code of 200 and the deleted data if it exists, otherwise respond with a status code of 404
+    !deletedDiagnostic
+      ? res.status(404).send()
+      : res.status(200).send(deletedDiagnostic);
+  } catch (err) {
+    // Respond with a status code of 404 and the error message if there was an issue deleting the data
+    res.status(404).send(err);
+  }
 });
 
 module.exports = router;

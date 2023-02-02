@@ -1,58 +1,78 @@
 const express = require("express");
 const router = express.Router();
-const painarea = require("../models/painArea");
+const PainArea = require("../models/painArea");
 
-
-// create the painArea
+// Route to create a new pain area
 router.post("/painarea", async (req, res) => {
-    try{
-        const addData = new painarea(req.body);
-        console.log(addData);
-        const added = await addPA.save();
-        res.status(201).send(added);
-    }catch(err){
-        res.status(404).send(err);
-    }
+  try {
+    // create new PainArea object
+    const newPainArea = new PainArea(req.body);
+    // save the new pain area to the database
+    const savedPainArea = await newPainArea.save();
+    // return the saved pain area
+    res.status(201).send(savedPainArea);
+  } catch (err) {
+    res.status(404).send(err);
+  }
 });
-// get data of painArea which one is live
+
+// Route to get all live pain areas
 router.get("/painareas", async (req, res) => {
-    try{
-        const getData = await painarea.find({isLive : true});
-        res.status(200).send(getData);
-    }catch(err){
-        res.status(404).send(err);
-    }
+  try {
+    // find all pain areas where isLive is true
+    const livePainAreas = await PainArea.find({ isLive: true });
+    res.status(200).send(livePainAreas);
+  } catch (err) {
+    res.status(404).send(err);
+  }
 });
-// get the painArea data by ID
+
+// Route to get a pain area by id
 router.get("/painarea/:painAreaId", async (req, res) => {
-    try{
-        const _id = req.params.painAreaId;
-        const getData = await painarea.findById(_id);
-        !getData ? res.status(404).send() : res.status(200).send(getData);
-    }catch(err){
-        res.status(404).send(err);
-    }
+  try {
+    // get the id from the request parameters and find the pain area by id
+    const painArea = await PainArea.findById(req.params.painAreaId);
+    // if the pain area is not found, return a 404 error
+    !painArea ? res.status(404).send() : res.status(200).send(painArea);
+  } catch (err) {
+    res.status(404).send(err);
+  }
 });
-// update the painArea data by ID
+
+// Route to update a pain area by id
 router.patch("/painarea/:painAreaId", async (req, res) => {
-    try{
-        const _id = req.params.painAreaId;
-        const updateData = await painarea.findByIdAndUpdate(_id, req.body,{
-            new : true
-        });
-        res.status(200).send(updateData);
-    }catch(err){
-        res.status(404).send(err);
-    }
+  try {
+    // get the id from the request parameters
+    const painAreaId = req.params.painAreaId;
+    // find and update the pain area by id with the new data
+    const updatedPainArea = await PainArea.findByIdAndUpdate(
+      painAreaId,
+      req.body,
+      {
+        new: true,
+      }
+    );
+    // return the updated pain area
+    res.status(200).send(updatedPainArea);
+  } catch (err) {
+    res.status(404).send(err);
+  }
 });
-// delete the painArea Data by ID
-router.delete("/painarea/:painAreaId", async (req, res) =>{
-    try{
-        const deleteData = await painarea.findByIdAndDelete(req.params.painAreaId);
-        !deleteData ? res.status(400).send() : res.status(200).send(deleteData);
-    }catch(err){
-        res.status(404).send(err);
-    }
+
+// Route to delete a pain area by id
+router.delete("/painarea/:painAreaId", async (req, res) => {
+  try {
+    // find and delete the pain area by id
+    const deletedPainArea = await PainArea.findByIdAndDelete(
+      req.params.painAreaId
+    );
+    // if the pain area is not found, return a 400 error
+    !deletedPainArea
+      ? res.status(400).send()
+      : res.status(200).send(deletedPainArea);
+  } catch (err) {
+    res.status(404).send(err);
+  }
 });
 
 module.exports = router;
