@@ -1,6 +1,6 @@
 const express = require("express");
 const router = express.Router();
-const AssignResult = require("../models/assginResult");
+const AssignResult = require("../models/assignResult");
 const csvtojson = require("csvtojson");
 
 

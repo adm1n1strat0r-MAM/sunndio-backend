@@ -11,9 +11,9 @@ const questionRouting = require("./routers/question");
 const diagnosticsRouting = require("./routers/diagnostics");
 const painBehaviorQuestionRouting = require("./routers/painBehaviorQuestion");
 const painPossibleQuestionRouting = require("./routers/painPossibleDiagnotics");
-const ProbabilityRouting = require("./routers/probability");
-const AssignResultRouting = require("./routers/assginResult");
-const DiagResultRouting = require("./routers/daignonsisResult");
+const probabilityRouting = require("./routers/probability");
+const assignResultRouting = require("./routers/assginResult");
+const diagResultRouting = require("./routers/daignonsisResult");
 
 const app = express();
 app.use(cors());
@@ -26,9 +26,9 @@ app.use([
   diagnosticsRouting,
   painBehaviorQuestionRouting,
   painPossibleQuestionRouting,
-  ProbabilityRouting,
-  AssignResultRouting,
-  DiagResultRouting,
+  probabilityRouting,
+  assignResultRouting,
+  diagResultRouting,
 ]);
 
 app.listen(PORT, () => {
