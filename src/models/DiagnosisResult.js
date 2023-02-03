@@ -1,16 +1,22 @@
 const mongoose = require("mongoose");
 
-const DiagResultSchema = mongoose.Schema({
-    PossibleDiag_id : {
-        type : mongoose.Schema.Types.ObjectId
-    },
-    painBehavior_id : {
-        type : mongoose.Schema.Types.ObjectId,
-        ref : 'PainBehavior'
-    },
-    DiagPercentage : {
-        type : Number
-    }
+// Define the Mongoose schema for DiagnosisResult, which contains a reference to the painBehavior and painPossibleDiagnostic models.
+const diagResultSchema = mongoose.Schema({
+  // Store the id of a painPossibleDiagnostic document
+  possibleDiagnosticId : {
+    type : mongoose.Schema.Types.ObjectId,
+    ref : "PainPossibleDiagnotic"
+  },
+  // Store the id of a painBehavior document
+  painBehaviorId : {
+    type : mongoose.Schema.Types.ObjectId,
+    ref : 'PainBehavior'
+  },
+  // Store the diagnosis percentage
+  DiagPercentage : {
+    type : Number
+  }
 });
 
-module.exports = mongoose.model("DiagnosisResult", DiagResultSchema);
+// Export the DiagnosisResult model
+module.exports = mongoose.model("DiagnosisResult", diagResultSchema);

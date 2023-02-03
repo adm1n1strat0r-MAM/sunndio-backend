@@ -1,13 +1,13 @@
 const mongoose = require("mongoose");
 
-const DiagSchema = new mongoose.Schema({
-    diag_name : {
+// Define the mongoose Schema for diagnostic
+const diagnosticSchema = new mongoose.Schema({
+    diagnosisName : {
         type : String,
         required : true,
         unique : true
     }
 });
 
-const Diagnostic = new mongoose.model("diagnostic", DiagSchema);
-
-module.exports = Diagnostic;
+// export the diagnosticSchema model
+module.exports = mongoose.model("Diagnostic", diagnosticSchema);
