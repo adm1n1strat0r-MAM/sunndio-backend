@@ -4,7 +4,7 @@ const mongoose = require("mongoose");
 const painPossibleDiagnosticSchema = new mongoose.Schema({
     diagnosticsId : {
         type : mongoose.Schema.Types.ObjectId,
-        ref : "diagnostic"
+        ref : "Diagnostic"
     },
     painBehaviorId : {
         type : mongoose.Schema.Types.ObjectId,

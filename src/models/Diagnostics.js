@@ -10,4 +10,4 @@ const diagnosticSchema = new mongoose.Schema({
 });
 
 // export the diagnosticSchema model
-module.exports = mongoose.model("diagnostic", diagnosticSchema);
+module.exports = mongoose.model("Diagnostic", diagnosticSchema);
