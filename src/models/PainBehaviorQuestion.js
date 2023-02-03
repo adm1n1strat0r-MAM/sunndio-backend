@@ -8,7 +8,7 @@ const painBehaviorQuestionSchema = mongoose.Schema({
     },
     questionId : {
         type : mongoose.Schema.Types.ObjectId,
-        ref : 'question'
+        ref : 'Question'
     }
 });
 
