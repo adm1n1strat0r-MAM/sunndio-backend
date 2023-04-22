@@ -1,6 +1,9 @@
 const express = require("express");
 const router = express.Router();
 const PainArea = require("../models/painArea");
+const CountryCode = require("../enums/countryCodeEnum");
+const errorMessageEn = require("../Error-Handling/error-handlingEn.json");
+const errorMessageEs = require("../Error-Handling/error-handlingEs.json");
 
 // Route to create a new pain area
 router.post("/painarea", async (req, res) => {
@@ -16,26 +19,129 @@ router.post("/painarea", async (req, res) => {
   }
 });
 
-// Route to get all live pain areas
-router.get("/painareas", async (req, res) => {
+// Route to get all live pain areas by country code
+router.get("/painareas/:countryCode", async (req, res) => {
+  const reqCountryCode = req.params.countryCode.toLowerCase();
   try {
-    // find all pain areas where isLive is true
+    // Find all pain areas where isLive is true
     const livePainAreas = await PainArea.find({ isLive: true });
-    res.status(200).send(livePainAreas);
+    var painAreas;
+    // Check if the country code is Spanish
+    if (reqCountryCode === CountryCode.SPANISH) {
+      painAreas = livePainAreas.map((item) => ({
+        _id: item._id,
+        name:
+          item.nameEs.charAt(0).toUpperCase() +
+          item.nameEs.slice(1).toLowerCase(),
+      }));
+    }
+    // Check if the country code is English
+    else if (
+      reqCountryCode === CountryCode.ENGLISH ||
+      reqCountryCode === CountryCode.ENGLISH_US
+    ) {
+      painAreas = livePainAreas.map((item) => ({
+        _id: item._id,
+        name:
+          item.name.charAt(0).toUpperCase() + item.name.slice(1).toLowerCase(),
+      }));
+    }
+    // If the country code is not recognized, return an error response
+    else {
+      const errorMessage = errorMessageEn.INVALID_COUNTRY_CODE;
+      return res.status(errorMessage.statusCode).json({
+        success: `"${reqCountryCode}" ${errorMessage.message}`,
+      });
+    }
+
+    const errorMessage =
+      reqCountryCode === CountryCode.SPANISH
+        ? errorMessageEs.PAIN_AREAS_RETRIEVAL_FAILED
+        : reqCountryCode === CountryCode.ENGLISH ||
+          reqCountryCode === CountryCode.ENGLISH_US
+        ? errorMessageEn.PAIN_AREAS_RETRIEVAL_FAILED
+        : "";
+    // Check if any live pain areas were found and send a response accordingly
+    return !painAreas
+      ? res.status(errorMessage.statusCode).send(errorMessage.message)
+      : res.status(errorMessageEn.OK.statusCode).send(painAreas);
   } catch (err) {
-    res.status(404).send(err);
+    const errorMessage =
+      reqCountryCode === CountryCode.SPANISH
+        ? errorMessageEs.INTERNAL_SERVER_ERROR
+        : reqCountryCode === CountryCode.ENGLISH ||
+          reqCountryCode === CountryCode.ENGLISH_US
+        ? errorMessageEn.INTERNAL_SERVER_ERROR
+        : "";
+    return res.status(errorMessage.statusCode).send({
+      success: false,
+      message: errorMessage.message,
+      error: err.message,
+    });
   }
 });
 
-// Route to get a pain area by id
-router.get("/painarea/:painAreaId", async (req, res) => {
+// Route to get a pain area by ID and country code
+router.get("/painarea/:countryCode/:painAreaId", async (req, res) => {
+  const reqCountryCode = req.params.countryCode.toLowerCase();
+  console.log(reqCountryCode);
   try {
-    // get the id from the request parameters and find the pain area by id
+    // Find the pain area by ID
     const painArea = await PainArea.findById(req.params.painAreaId);
-    // if the pain area is not found, return a 404 error
-    !painArea ? res.status(404).send() : res.status(200).send(painArea);
+    console.log(painArea);
+    let painAreaObj = {};
+    let painAreas = [];
+    // Check if the country code is Spanish
+    if (reqCountryCode === CountryCode.SPANISH) {
+      painAreaObj = {
+        _id: painArea._id,
+        name: painArea.nameEs,
+      };
+    }
+    // Check if the country code is English
+    else if (
+      reqCountryCode === CountryCode.ENGLISH ||
+      reqCountryCode === CountryCode.ENGLISH_US
+    ) {
+      painAreaObj = {
+        _id: painArea._id,
+        name: painArea.name,
+      };
+    }
+    // If the country code is not recognized, return an error response
+    else {
+      const errorMessage = errorMessageEn.INVALID_COUNTRY_CODE;
+      res.status(errorMessage.statusCode).json({
+        success: `"${reqCountryCode}" ${errorMessage.message}`,
+      });
+    }
+    painAreas.push(painAreaObj);
+    // Check if the pain area was found and send a response accordingly
+    const errorMessage =
+      reqCountryCode === CountryCode.SPANISH
+        ? errorMessageEs.PAIN_AREAS_RETRIEVAL_FAILED
+        : reqCountryCode === CountryCode.ENGLISH ||
+          reqCountryCode === CountryCode.ENGLISH_US
+        ? errorMessageEn.PAIN_AREAS_RETRIEVAL_FAILED
+        : "";
+    // Check if any live pain areas were found and send a response accordingly
+    !painAreas
+      ? res.status(errorMessage.statusCode).send(errorMessage.message)
+      : res.status(errorMessageEn.OK.statusCode).send(painAreas);
   } catch (err) {
-    res.status(404).send(err);
+    // If an error occurs, send a 500 response with the error message
+    const errorMessage =
+      reqCountryCode === CountryCode.SPANISH
+        ? errorMessageEs.INTERNAL_SERVER_ERROR
+        : reqCountryCode === CountryCode.ENGLISH ||
+          reqCountryCode === CountryCode.ENGLISH_US
+        ? errorMessageEn.INTERNAL_SERVER_ERROR
+        : "";
+    res.status(errorMessage.statusCode).send({
+      success: false,
+      message: errorMessage.message,
+      error: err.message,
+    });
   }
 });
 
