@@ -12,7 +12,17 @@ const painBehaviorSchema = new mongoose.Schema({
     painDefinitionId: {
         type : mongoose.Schema.Types.ObjectId,
         ref : "PainDefinition"
+    },
+    nameEs : {
+        type : String,
+        require :true,
+        unique : true
+    },
+    imageUrl : {
+        type : String,
+        required : true
     }
+
 });
 
 // Export the painBehavior model
